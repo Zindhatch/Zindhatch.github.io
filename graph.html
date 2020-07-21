@@ -45,23 +45,14 @@
     //     edges: edges
     // };
     var options = {
-        
-  manipulation: {
-    enabled: false,
-    initiallyActive: false,
-    addNode: true,
-    addEdge: true,
-    editNode: undefined,
-    editEdge: true,
-    deleteNode: true,
-    deleteEdge: true,
-    controlNodeStyle:{
-      // all node options are valid.
-    }
-    }};
+        };
 
     // initialize your network!
     // var network = new vis.Network(container, data, options);
+    document.querySelector("#graphInput").value="5
+1 2
+3 4
+2 4";
 
     function createGraph() {
         let dat=document.querySelector("#graphInput").value.split('\n');
