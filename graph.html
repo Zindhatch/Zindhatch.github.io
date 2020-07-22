@@ -1,5 +1,8 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
 
     <style type="text/css">
@@ -56,7 +59,42 @@
         let n=Number(dat[0]);
         //creating edges dataset
         var ed=[];
-        for (let i=1;i<dat.length;i++) {
+        var node=[];
+        var labels=[];
+        let temp=dat[1].split(' ');
+        if (temp.length==2) {
+            let y,z;
+            y=Number(temp[0]);
+            z=Number(temp[1]);
+            temp={};
+            temp['from']=y;
+            temp['to']=z;
+            ed.push(temp);
+            for (let ii=0;ii<n;ii++) labels.push(String(ii+1));
+        }
+        else {
+            if (temp.length<n) {
+                console.log("Given node labels is not equal to number of nodes!");
+                for (let ii=0;ii<temp.length;i++) labels.push(String(ii+1));
+            }
+            else {
+                for (let ii=0;ii<temp.length;ii++) {
+                    labels.push(temp[ii]);
+                }
+            }
+        }
+        
+        //creating nodes id and labels
+        for (let i=0;i<n;i++) {
+            let temp={};
+            temp['id']=i+1;
+            temp['label']=labels[i];
+            node.push(temp);
+        }
+        nodes=new vis.DataSet(node);
+
+        //extrating edges
+        for (let i=2;i<dat.length;i++) {
             let temp=dat[i].split(' ');
             let y,z;
             y=Number(temp[0]);
@@ -68,14 +106,6 @@
         }
         edges=new vis.DataSet(ed);
         //creating node dataset;
-        var node=[];
-        for (let i=0;i<n;i++) {
-            let temp={};
-            temp['id']=i+1;
-            temp['label']=String(i+1);
-            node.push(temp);
-        }
-        nodes=new vis.DataSet(node);
         var data={};
         data['nodes']=nodes;
         data['edges']=edges;
