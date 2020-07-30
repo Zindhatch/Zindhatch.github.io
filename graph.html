@@ -84,17 +84,9 @@
             }
         }
         
-        //creating nodes id and labels
-        for (let i=0;i<n;i++) {
-            let temp={};
-            temp['id']=i+1;
-            temp['label']=labels[i];
-            node.push(temp);
-        }
-        nodes=new vis.DataSet(node);
 
         //extrating edges
-        for (let i=2;i<dat.length;i++) {
+        for (let i=2;i<dat.length-1;i++) {
             let temp=dat[i].split(' ');
             let y,z;
             y=Number(temp[0]);
@@ -104,12 +96,46 @@
             temp['to']=z;
             ed.push(temp);
         }
+        temp=dat[dat.length-1].split(' ');
+        if (temp.length!=2) {
+            for (let i=0; i<temp.length;i++) {
+                labels[i]=labels[i]+" : "+temp[i];
+            }
+        }
+        else {
+            let y,z;
+            y=Number(temp[0]);
+            z=Number(temp[1]);
+            temp={};
+            temp['from']=y;
+            temp['to']=z;
+            ed.push(temp);
+        }
         edges=new vis.DataSet(ed);
+
+        //creating nodes id and labels
+        for (let i=0;i<n;i++) {
+            let temp={};
+            temp['id']=i+1;
+            temp['label']=labels[i];
+            node.push(temp);
+        }
+        nodes=new vis.DataSet(node);
         //creating node dataset;
         var data={};
         data['nodes']=nodes;
         data['edges']=edges;
         network = new vis.Network(container, data, options);
+        
+        
+        //enablling arrows
+        var optio = {
+            edges:{
+            arrows: 'to',
+            smooth: true,
+            }
+        }
+        network.setOptions(optio);
     }
 </script>
 </body>
